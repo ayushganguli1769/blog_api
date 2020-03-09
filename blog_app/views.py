@@ -27,7 +27,10 @@ def createArticle(request):
     print(request.data)
     data = {}
     if serialized.is_valid():
-        arti = Article(owner= request.user,title = request.data['title'], content = request.data['content'])
+        image = None
+        if request.FILES:
+            image = request.FILES['image']
+        arti = Article(owner= request.user,title = request.data['title'], content = request.data['content'], image = image)
         arti.save()
         data['sucess'] = "article created"
         return Response(data = data ,status= status.HTTP_201_CREATED)
@@ -54,7 +57,10 @@ def display(request):
         article_comment = []
         for comment in all_comment_article:
             article_comment.append(comment.text)
-        all_article_data.append({'owner':article.owner.username,'title':article.title,'content':article.content,'comments':article_comment})
+        image = None
+        if article.image:
+            image = article.image.url
+        all_article_data.append({'owner':article.owner.username,'title':article.title,'image':image,'content':article.content,'comments':article_comment})
     return HttpResponse(all_article_data)
 @api_view(['POST','GET'])
 @permission_classes([IsAuthenticated])

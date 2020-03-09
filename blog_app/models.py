@@ -5,6 +5,7 @@ class Article(models.Model):
     owner = models.ForeignKey(User, on_delete= models.CASCADE, related_name= "user_article")
     title = models.CharField(max_length= 120, null= True, blank= True)
     content = models.CharField(max_length= 3500, null= True,blank= True)
+    image = models.FileField(null= True, blank= True)
     def __str__(self):
         return self.title
 class Comment(models.Model):
@@ -26,7 +27,7 @@ class ArticleSerializer(serializers.ModelSerializer):
      )
     class Meta:
         model = Article
-        fields = ('title','owner','content','id')
+        fields = ('title','owner','content','id','image')
 class CommentSerializer(serializers.ModelSerializer):
     article = serializers.SlugRelatedField(
         many=True,

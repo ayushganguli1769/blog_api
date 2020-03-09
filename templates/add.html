@@ -32,15 +32,11 @@
     title = document.getElementById('title').value;
     content = document.getElementById('content').value;
     image = document.getElementById('upload').files[0];
-    alert(image)
-    alert(title)
-    alert(content)
     a = localStorage.getItem('token')
     authorization = "Token "+ a
     
  
     URL = "/createArticle/";
-    alert(URL);
     var req = new XMLHttpRequest();
             req.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 201) {

@@ -52,7 +52,7 @@ def addComment(request, article_id):
 @permission_classes([IsAuthenticated])
 def display(request):
     all_article_data = []
-    all_article = Article.objects.all()
+    all_article = Article.objects.all().order_by('-id')
     for article in all_article:
         all_comment_article = Comment.objects.filter(article = article)
         article_comment = []

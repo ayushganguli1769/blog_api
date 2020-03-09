@@ -21,6 +21,7 @@ urlpatterns = [
     path('register/',views.register, name="register"),
     path('login/', views.login, name= "login"),
     path('home/', views.home, name= "home"),
+    path('add/',views.add, name="add"),
 ]
 """
 No template tagging has been used in these urls.

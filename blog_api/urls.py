@@ -17,9 +17,10 @@ from django.contrib import admin
 from django.urls import path, re_path,include
 from django.conf import settings
 from django.conf.urls.static import static
-
+from frontend.views import base
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('',base, name="base"),
     path('',include('blog_app.urls')),
     path('frontend/', include('frontend.urls')),
 ]

@@ -1,6 +1,115 @@
 {% extends "base.html" %}
 
 {% block body %}
+<div id="mydisplay">
+<h1>hellllllo</h1>
+</div>
+<div class="card" class="col-sm-10 col-lg-10 col-xs-10 col-md-10" style="margin:29px; padding:35px;">
+    <h4 class="card-title">By XXXXXXXXXXXXXXX-</h4>
+  
+    {% if post.image  %}
+    <img class="card-img-top col-lg-6 col-md-6 " src="{{post.image.url}}" alt="Card image">
+    {% endif %}
+    <div class="card-body">
+      <p class="card-text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Explicabo vel corporis ut soluta earum aspernatur repellat at, quo ab aliquam sit doloremque labore fuga inventore exercitationem, voluptas enim. Minus, fugiat. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Assumenda maxime voluptatum nemo saepe voluptatibus quae enim delectus doloremque nihil accusamus eaque quas eos maiores cupiditate, amet molestias. Possimus, excepturi sint.</p>
+    </div>
+  </div>
+<script>
+    window.onload = home();
+    function home()
+    {
+        display = document.getElementById("mydisplay");
+        display.innerHTML = ''
+        a = localStorage.getItem('token')
+        authorization = "Token "+ a
+        $.ajax({
+            url: '/display/',
+            type: 'POST',
+            dataType: 'json',
+            headers: {
+                'Authorization': authorization,
+            },
+            contentType: 'application/json; charset=utf-8',
+            success: function (result) {
+               all_data = eval(result)
+               
+               for(i = 0; i < all_data.length; i++)
+               {
+                  //  display.innerHTML = ' <div class="card" class="col-sm-10 col-lg-10 col-xs-10 col-md-10" style="margin:29px; padding:35px; ">'
+                    //display.innerHTML += '<h4 class="card-title"> By' + all_data[i]['owner'] + '</h4>'
+                    //display.innerHTML += '</div>'
+                var html = `
+                <div class="card" class="col-sm-10 col-lg-10 col-xs-10 col-md-10" style="margin:29px; padding:35px;">
+    <h4 class="card-title">By `+ all_data[i]['owner'] + `</h4><br>
+    <h4 class="card-title">Title: `+ all_data[i]['title'] + `</h4><br>`
+    if (all_data[i]['image'] != null)
+    {
+        img = all_data[i]['image']
+        html += `<img class="card-img-top col-lg-6 col-md-6 " src=" ` +  img +`" alt="Card image">`
+    } 
+    html += `
+    <div class="card-body">
+      <p class="card-text">`+ all_data[i]['content'] +`</p> `
+      html += ` <textarea  class= "col-12" placeholder = "ADD COMMENTS" id = "commenttext` + all_data[i]['id'] +`"></textarea> `;
+        html += `
+        <button class = "btn btn-primary" data-toggle="collapse" data-target="#demo`+i+` ">VIEW COMMENTS</button>
+        <button class = "btn btn-primary" value=" `+all_data[i]['id']+`" onclick ="addComment(this)"  >ADD COMMENTS</button>
+        <div id="demo`+i + `"  class="collapse"> `
+            comments = all_data[i]['comments']
+            for(j = 0; j< comments.length; j++)
+            {
+                html += '<li>' + all_data[i]['comments'][j] + '</li>'
+            }
+        html += `
+        </div>
+        `
+        html += 
+
+      `
+    </div>
+  </div>
+                `;
+                display.innerHTML += html
+            }
+            },
+            error: function (data) {
+                alert(error)
+            }
+        });
+
+}
+function addComment(obj)
+{
+    b = localStorage.getItem('token')
+        authorization = "Token "+ b
     
+    alert(obj.value)
+    var num = obj.value
+    b =  num.toString();
+    a = "commenttext" + b
+    a = a.replace(/\s+/g, '');
+    //alert(a)
+    comment_text_add = document.getElementById(a).value;
+    URL = "/addComment/" + obj.value +'/';
+    URL = URL.replace(/\s+/g, '');
+    var req = new XMLHttpRequest();
+            req.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 201) {
+                    
+                }
+                else if(this.readyState == 4 && this.status == 400)
+                {
+                    alert("Invalid Credentials")
+                }
+            };
+            req.open("POST", URL, true);
+            req.setRequestHeader('Authorization', authorization);
+            req.setRequestHeader("Content-Type", "application/json");
+            req.send(JSON.stringify({text: comment_text_add}));
+            return true;
+}
+
+  //req.setRequestHeader("Content-Type", "application/json");
+</script>
 {% endblock body %}
     

@@ -22,7 +22,7 @@ function login()
                 data = JSON.parse(req.responseText)
                 localStorage.setItem('token',data['token'] );
                 a= localStorage.getItem('token')
-                alert(a)
+                //alert(a)
                 window.location.replace("/frontend/home/")
                 }
                 else if(this.readyState == 4 && this.status == 400)

@@ -61,8 +61,9 @@ def display(request):
         image = None
         if article.image:
             image = article.image.url
-        all_article_data.append({'owner':article.owner.username,'title':article.title,'image':image,'content':article.content,'comments':article_comment})
-    return HttpResponse(all_article_data)
+        all_article_data.append({'owner':article.owner.username,'title':article.title,'id':article.id,'image':image,'content':article.content,'comments':article_comment})
+        print(all_article_data)
+    return Response(json.dumps(all_article_data))
 @api_view(['POST','GET'])
 @permission_classes([IsAuthenticated])
 def logout(request):

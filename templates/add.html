@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block body %}
+  <div class="container">
+        <div class="form-group">
+          <label for="exampleInputEmail1">Title</label>
+          <input type="text" class="form-control" id="title" name="title"  placeholder="Enter Title">
+        </div>
+
+    
+        <br>
+        <label for="upload" >Upload Image:</label>
+        <input type="file" name="image" id= "upload">
+        <br>
+        <div class="row">
+            <textarea class="col-md-12" name="description" id="content" ></textarea>
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary" name="addPost" onclick="addArticle()">ADD ARTICLE</button>
+        <br>
+        <br>
+  </div>
+  <style>
+      textarea {
+    overflow-y: scroll;
+    height:75vh;
+    resize: none; /* Remove this if you want the user to resize the textarea */
+}
+  </style>
+  <script>
+      function addArticle(obj)
+{
+    title = document.getElementById('title').value;
+    content = document.getElementById('content').value;
+    image = document.getElementById('upload').files[0];
+    alert(image)
+    alert(title)
+    alert(content)
+    a = localStorage.getItem('token')
+    authorization = "Token "+ a
+    
+ 
+    URL = "/createArticle/";
+    alert(URL);
+    var req = new XMLHttpRequest();
+            req.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 201) {
+                    
+                }
+                else if(this.readyState == 4 && this.status == 400)
+                {
+                    alert("Invalid Credentials")
+                }
+            };
+            req.open("POST", URL, true);
+            req.setRequestHeader('Authorization', authorization);
+            req.setRequestHeader("Content-Type", "application/json");
+            req.send(JSON.stringify({title: title,content:content}),image);
+}
+  </script>
+{% endblock body %}

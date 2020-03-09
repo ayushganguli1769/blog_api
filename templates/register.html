@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block body %}
+    <div id="register" style="text-align: center;" >
+        <input type="text" class="col-md-7 m-1 p-1" placeholder="email" id="email">
+        <input type="text" class="col-md-7 m-1 p-1" placeholder="username" id="username">
+        <input type="password" class="col-md-7 m-1 p-1" placeholder="password" id="password">
+        <input type="password" class="col-md-7 m-1 p-1" placeholder="confirm password" id="password1"><br>
+        <button class="btn btn-success col-md-4 mt-3" onclick="return register()">SIGN UP</button>
+    </div>
+    <script>
+        function register()
+        {
+            url = "/register/"
+            //alert("hii")
+            email = document.getElementById("email").value;
+            username = document.getElementById("username").value;
+            password = document.getElementById("password").value;
+            password1 = document.getElementById("password1").value;
+            /*
+            alert(email)
+            alert(username)
+            alert(password)
+            alert(password1)
+            */
+            if( password != password1)
+            {
+                alert("password do not match");
+                return false;
+            }
+            var req = new XMLHttpRequest();
+            req.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 201) {
+                alert("Sucessfully Signed UP");
+                window.location.replace("/frontend/login/")
+                }
+                else if(this.readyState == 4 && this.status == 400)
+                {
+                    alert("Invalid Credentials")
+                }
+            };
+            req.open("POST", url, true);
+            req.setRequestHeader("Content-Type", "application/json");
+            req.send(JSON.stringify({email : email,username:username, password:password}));
+            return true;
+        }
+    </script>
+{% endblock body %}
+    

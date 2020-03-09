@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block body %}
+    
+    
+<div id="login" style="text-align: center;" >
+    <input type="text" class="col-md-7 m-1 p-1" placeholder="username" id="username">
+    <input type="password" class="col-md-7 m-1 p-1" placeholder="password" id="password"><br>
+    <button class="btn btn-success col-md-4 mt-3" onclick="return login()">SIGN UP</button>
+</div>
+<script>
+function login()
+{
+    //alert("Hii");
+    username = document.getElementById("username").value;
+    password = document.getElementById("password").value;
+    //alert(username);
+    //alert(password);
+    var req = new XMLHttpRequest();
+            req.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                data = JSON.parse(req.responseText)
+                localStorage.setItem('token',data['token'] );
+                a= localStorage.getItem('token')
+                alert(a)
+                window.location.replace("/frontend/home/")
+                }
+                else if(this.readyState == 4 && this.status == 400)
+                {
+                    alert("Invalid Credentials")
+                    return false;
+                }
+            };
+            req.open("POST", "/api-token-auth/", true);
+            //req.setRequestHeader('X-CSRF-Token', getCSRFTokenValue());
+            req.setRequestHeader("Content-Type", "application/json");
+            req.send(JSON.stringify({username:username, password:password}));
+            return true;
+}
+</script>
+{% endblock body %}

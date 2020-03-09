@@ -18,9 +18,9 @@ from django.urls import path, re_path,include
 from .import views
 
 urlpatterns = [
-    path('register',views.register, name="register"),
-    path('login', views.login, name= "login"),
-    path('home', views.home, name= "home"),
+    path('register/',views.register, name="register"),
+    path('login/', views.login, name= "login"),
+    path('home/', views.home, name= "home"),
 ]
 """
 No template tagging has been used in these urls.

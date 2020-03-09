@@ -6,6 +6,7 @@ from rest_framework import status
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 import json
+from django.views.decorators.csrf import csrf_exempt
 from .models import UserSerializer, Article,Comment,ArticleSerializer, CommentSerializer
 @api_view(['POST'])
 def register(request):

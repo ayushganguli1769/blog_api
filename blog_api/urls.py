@@ -21,7 +21,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('blog_app.urls')),
-    path('frontend', include('frontend.urls')),
+    path('frontend/', include('frontend.urls')),
 ]
 if settings.DEBUG: #Not for production code
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

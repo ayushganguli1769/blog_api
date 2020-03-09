@@ -74,6 +74,7 @@ function addComment(obj)
     b = localStorage.getItem('token')
         authorization = "Token "+ b
     
+    alert(obj.value)
     var num = obj.value
     b =  num.toString();
     a = "commenttext" + b
@@ -83,8 +84,15 @@ function addComment(obj)
     URL = "/addComment/" + obj.value +'/';
     URL = URL.replace(/\s+/g, '');
     var req = new XMLHttpRequest();
-            req.onreadystatechange = function() {
+            req.onreadystatechange = function(obj) {
                 if (this.readyState == 4 && this.status == 201) {
+                    alert(obj.value)
+                    var num = obj.value
+                    b =  num.toString();
+                    a = "commenttext" + b
+                    a = a.replace(/\s+/g, '');
+                    alert(document.getElementById('a').value)
+                    document.getElementById('a').value = ""
                     
                 }
                 else if(this.readyState == 4 && this.status == 400)
